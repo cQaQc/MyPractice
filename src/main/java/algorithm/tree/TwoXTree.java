@@ -1,4 +1,4 @@
-package algorithm;
+package algorithm.tree;
 /**
  *作者: 柯神_
  *时间: 22:38
@@ -13,7 +13,6 @@ package algorithm;
 public class TwoXTree {
 
     TreeNode head = new TreeNode(-1);
-
     TreeNode pre = null;
 
     public TreeNode convert(TreeNode root){
@@ -35,19 +34,5 @@ public class TwoXTree {
         root.left=null;
         help(root.right);
 
-    }
-
-
-    public static void main(String[] args) {
-
-    }
-}
-
-class TreeNode{
-    int v;
-    TreeNode left;
-    TreeNode right;
-    TreeNode(int n){
-        v = n;
     }
 }
