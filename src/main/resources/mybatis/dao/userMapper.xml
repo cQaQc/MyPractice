@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mybatis.dao.BookesDao">
+
+<!--    <select id="findU" resultMap="BA" >
+        select * from admins a,bookes b
+        where a.bookesId=b.bookID and b.bookID=#{id}
+    </select>
+    <resultMap id="BA" type="bookes">
+        <result column="bookId" property="bookId"/>
+        <result column="bookName" property="bookName"/>
+        <result column="bookCounts" property="bookCounts"/>
+        <result column="detail" property="detail"/>
+        <collection property="admins" ofType="admins">
+            <result column="adminId" property="adminId"/>
+            <result column="adminName" property="adminName"/>
+            <result column="adminPassword" property="password"/>
+        </collection>
+    </resultMap>-->
+
+    <select id="find" resultType="bookes">
+        select * from bookes
+        <where>
+            <if test="bookname!=null">
+                bookname = #{bookname}
+            </if>
+            <if test="detail!=null">
+                and detail like "%"#{detail}"%"
+            </if>
+        </where>
+    </select>
+
+    <select id="findU" resultMap="BA">
+        select * from bookes b
+        where b.bookID=#{id}
+    </select>
+    <resultMap id="BA" type="bookes">
+        <result column="bookId" property="bookId"/>
+        <result column="bookName" property="bookName"/>
+        <result column="bookCounts" property="bookCounts"/>
+        <result column="detail" property="detail"/>
+        <collection property="admins"
+                    ofType="admins" select="getAById" column="bookId"/>
+    </resultMap>
+
+    <select id="getAById" resultType="admins">
+        select * from admins where bookesId=#{bookId}
+    </select>
+
+    <select id="getRowBounds" resultType="bookes">
+        select * from bookes
+    </select>
+
+    <insert id="addBook" >
+        insert into bookes(bookid,bookname,bookcounts,detail)
+        values(#{bookid},#{bookname},#{bookcounts},#{detail})
+    </insert>
+
+</mapper>

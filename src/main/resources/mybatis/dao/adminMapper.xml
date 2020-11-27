@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mybatis.dao.AdminDao">
+
+    <select id="find" resultMap="AB" >
+        select a.adminId,a.adminName,b.bookName,b.detail from admins a,bookes b
+        where a.bookesId=b.bookID
+    </select>
+    <resultMap id="AB" type="admins">
+        <result column="adminId" property="adminId"/>
+        <result column="adminName" property="adminName"/>
+        <result column="adminPassword" property="password"/>
+        <association property="bookes" javaType="bookes">
+            <result column="bookId" property="bookId"/>
+            <result column="bookName" property="bookName"/>
+            <result column="bookCounts" property="bookCounts"/>
+            <result column="detail" property="detail"/>
+        </association>
+    </resultMap>
+    <select id="getB" resultType="bookes">
+        select * from bookes where bookID=#{id}
+    </select>
+
+    <resultMap id="adminMap" type="admins">
+        <result column="adminPassword" property="password"/>
+    </resultMap>
+
+    <select id="getLike" resultMap="adminMap">
+        select * from admins where adminName like "%"#{value}"%"
+    </select>
+
+    <insert id="add" parameterType="admins">
+        insert into admins (adminId,adminName,adminPassword) values(#{adminId},#{adminName},#{adminPassword})
+    </insert>
+
+    <insert id="addByMap" parameterType="map">
+        insert into admins (adminId,adminName,adminPassword) values(#{a},#{b},#{c})
+    </insert>
+</mapper>

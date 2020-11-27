@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                        http://www.springframework.org/schema/beans/spring-beans.xsd
+                        http://www.springframework.org/schema/aop
+                        http://www.springframework.org/schema/aop/spring-aop.xsd">
+<!--    方式一，用spring的API实现aop-->
+    <!--注册bean-->
+    <bean id="afterLog" class="proxy.AfterLog"></bean>
+    <bean id="beforeLog" class="proxy.BeforeLog"></bean>
+    <bean id="user2" class="proxy.User"></bean>
+    <!--配置aop，需要导入aop的约束-->
+    <!--<aop:config>
+        <aop:pointcut id="pointcut"
+                      expression="execution(* proxy.User.*(..))"/>
+        &lt;!&ndash;        执行增强&ndash;&gt;
+        <aop:advisor advice-ref="afterLog" pointcut-ref="pointcut"/>
+        <aop:advisor advice-ref="beforeLog" pointcut-ref="pointcut"/>
+    </aop:config>-->
+<!--    方式二，自定义切面-->
+   <!-- <bean id="aspect" class="proxy.DiyLog"/>
+
+    <aop:config>
+        <aop:aspect ref="aspect">
+&lt;!&ndash;            切入点&ndash;&gt;
+            <aop:pointcut id="point" expression="execution(* proxy.User.*(..))"/>
+&lt;!&ndash;            通知&ndash;&gt;
+            <aop:before method="before" pointcut-ref="point"/>
+            <aop:after method="after" pointcut-ref="point"/>
+        </aop:aspect>
+    </aop:config>-->
+<!--    方式三，使用注解实现-->
+    <bean id="annotationPointCut" class="proxy.DiyLog"/>
+<!--    开启注解支持-->
+    <aop:aspectj-autoproxy/>
+</beans>
